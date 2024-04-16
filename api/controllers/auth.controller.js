@@ -29,14 +29,43 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = (req, res) => {
+export const login = async (req, res) => {
   const { username, password } = req.body;
 
-  // CHECK IF THE USER EXIST
+  try {
+    // CHECK IF THE USER EXIST
 
-  // CHECK IF THE PASSWORD IS CORRECT
+    const user = await prisma.user.findUnique({
+      where: { username },
+    });
 
-  // GENERATE COOKIE TOKEN AND SEND TO USER
+    if (!user) return res.status(401).json({ message: "Invalid Credentials" });
+
+    // CHECK IF THE PASSWORD IS CORRECT
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid)
+      return res.status(401).json({ message: "Invalid Credentials" });
+
+    // GENERATE COOKIE TOKEN AND SEND TO USER
+
+    // res.setHeader("Set-Cookie", "test=" + "myValue").json("success");
+
+    const age = 1000 * 60 * 60 * 24 * 7;
+
+    res
+      .cookie("test2", "myVlue2", {
+        httpOnly: true,
+        // secure: true,
+        maxAge: age,
+      })
+      .status(200)
+      .json({ message: "Login Successfull" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to login" });
+  }
 };
 
 export const logout = (req, res) => {
