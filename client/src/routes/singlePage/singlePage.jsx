@@ -13,11 +13,14 @@ function SinglePage() {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  console.log(post);
+
   const handleSave = async () => {
-    setSaved((prev) => !prev);
     if (!currentUser) {
       navigate("/login");
     }
+    // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
+    setSaved((prev) => !prev);
     try {
       await apiRequest.post("/users/save", { postId: post.id });
     } catch (err) {
