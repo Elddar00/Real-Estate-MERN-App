@@ -29,9 +29,20 @@ io.on("connection", (socket) => {
     console.log(onlineUser);
   });
 
+  // socket.on("sendMessage", ({ receiverId, data }) => {
+  //   const receiver = getUser(receiverId);
+  //   io.to(receiver.socketId).emit("getMessage", data);
+  // });
+
   socket.on("sendMessage", ({ receiverId, data }) => {
     const receiver = getUser(receiverId);
-    io.to(receiver.socketId).emit("getMessage", data);
+    if (receiver && receiver.socketId) {
+      io.to(receiver.socketId).emit("getMessage", data);
+    } else {
+      console.log("Receiver not found or socketId is undefined");
+      console.log("ReceiverId:", receiverId);
+      console.log("Online users:", onlineUser);
+    }
   });
 
   socket.on("disconnect", () => {
