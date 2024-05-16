@@ -13,7 +13,7 @@ function SinglePage() {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log(post);
+  // console.log(post);
 
   const handleSave = async () => {
     if (!currentUser) {

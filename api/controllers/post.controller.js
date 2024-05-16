@@ -114,6 +114,16 @@ export const deletePost = async (req, res) => {
       return res.status(403).json({ message: "Not Authorized!" });
     }
 
+    const postDetail = await prisma.postDetail.findUnique({
+      where: { postId: id },
+    });
+
+    if (postDetail) {
+      await prisma.postDetail.delete({
+        where: { postId: id },
+      });
+    }
+
     const savedPosts = await prisma.savedPost.findMany({
       where: { postId: id },
     });

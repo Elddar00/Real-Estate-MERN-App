@@ -17,7 +17,11 @@ function SearchBar() {
   };
 
   const handleChange = (e) => {
-    setQuery((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    let value = e.target.value.toLowerCase();
+    if (value.includes("novi pazar")) {
+      value = "Novi Pazar";
+    }
+    setQuery((prev) => ({ ...prev, [e.target.name]: value }));
   };
 
   return (

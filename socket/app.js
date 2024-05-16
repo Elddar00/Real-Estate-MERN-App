@@ -6,6 +6,8 @@ const io = new Server({
   },
 });
 
+// da se premesi u API
+
 let onlineUser = [];
 
 const addUser = (userId, socketId) => {
