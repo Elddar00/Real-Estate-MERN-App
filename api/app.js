@@ -13,6 +13,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 8800;
 
 app.use(
   cors({
@@ -33,6 +34,6 @@ app.use("/api/test", testRoute);
 app.use("/api/chats", chatRoute);
 app.use("/api/messages", messageRoute);
 
-app.listen(8800, () => {
-  console.log("server is running");
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
